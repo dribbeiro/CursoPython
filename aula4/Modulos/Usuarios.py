@@ -1,35 +1,7 @@
 #!/usr/bin/python
-# arquivo: admssh.py
+# arquivo: Usuarios.py
 
-import sys
-import json
-
-
-def ler_json():
-    with open('banco.json', 'r') as f:
-        arquivo = f.read()
-        arquivo = json.loads(arquivo)
-        return arquivo
-
-
-def gravar_json(dicionario):
-    with open('banco.json', 'w') as f:
-        arq = json.dumps(dicionario)
-        f.write(arq)
-
-
-def menu():
-    print '1 - Cadastro User'
-    print '2 - Remover User'
-    print '3 - Listar Users'
-    print '4 - Autenticar'
-    print '5 - Sair'
-    try:    
-        opcao = input('Escolha uma opcao: ')
-        return opcao
-    except Exception as e:
-        print 'Digite um numero de 1-5'
-        return 0
+from Modulos.Geral import ler_json, gravar_json
 
 
 def cadastrar_usuario():
@@ -78,24 +50,3 @@ def autenticar_usuario():
             break
     else:
         print 'Usuario ou Senha Invalido'
-
-
-def sair():
-    print 'Bye...'
-    sys.exit()
-
-
-def switch(x):
-    funcoes = {1: cadastrar_usuario,
-               2: remover_usuario,
-               3: listar_usuarios,
-               4: autenticar_usuario,
-               5: sair}
-    try:
-        funcoes[x]()
-    except Exception as e:
-        print 'Opcao do menu invalida', e
-
-while True:
-    opcao = menu()
-    switch(opcao)
