@@ -2,7 +2,7 @@
 # arquivo: admssh.py
 
 import sys, os
-from Modules.Usuarios import cadastrar_usuario, remover_usuario, listar_usuarios, alterar_usuario
+from Modules.Usuarios import cadastrar_usuario, remover_usuario, listar_usuarios, autenticar_usuario
 from Modules.Servidores import cadastrar_servidor, remover_servidor, listar_servidores
 
 
@@ -10,7 +10,7 @@ def menu():
     print '1 - Cadastro User'
     print '2 - Remover User'
     print '3 - Listar Users'
-    print '4 - Alterar User'
+    print '4 - Autenticar User'
     print '5 - Cadstrar Servidor'
     print '6 - Remover Servidor'
     print '7 - Listar Servidores'
@@ -33,7 +33,7 @@ def switch(x):
     funcoes = {1: cadastrar_usuario,
                2: remover_usuario,
                3: listar_usuarios,
-               4: alterar_usuario,
+               4: autenticar_usuario,
                5: cadastrar_servidor,
                6: remover_servidor,
                7: listar_servidores,
