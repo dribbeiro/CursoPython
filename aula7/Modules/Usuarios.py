@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # arquivo: Usuarios.py
 
-from Modules.Model import session, Usuarios
+from Modules.Model import session, Usuarios, Tokens
 
 
 def cadastrar_usuario():
@@ -26,6 +26,11 @@ def autenticar_usuario():
 
     if usuario:
         print 'Usuario Autenticado'
+        t = Tokens()
+        usuario.tokens.append(t)
+        session.add(t)
+        session.commit()
+        print 'Token de Acesso: ', t.token
     else:
         print 'Login ou Senha Invalidos'
 

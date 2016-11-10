@@ -1,11 +1,18 @@
 #!/usr/bin/python
 # arquivo: Servidores.py
 
-from Modules.Model import session, Servidores
+from Modules.Model import session, Servidores, Tokens
 from Modules.Docker import criar_container, rm_container, ip_container
+from datetime import datetime
 
 
 def cadastrar_servidor():
+    t = input('Digite seu Token de Acesso: ')
+    acesso = session.query(Tokens).filter(Tokens.token==t).first()
+
+    if not acesso or (datetime.now() - acesso.data).total_seconds() > 3600:
+        print 'Token Invalido ou Expirado'
+
     servidor = Servidores()
     servidor.nome = raw_input('Nome do Servidor: ')
     servidor.descricao = raw_input('Descricao Servidor: ')
@@ -15,9 +22,12 @@ def cadastrar_servidor():
         servidor.ip = ip_container(servidor.nome)
 
         session.add(servidor)
+        s = session.query(Servidores).filter(Servidores.nome==servidor.nome).first()
+        acesso.servidores_id = s.id
         session.commit()
 
     except Exception as e:
+        session.rollback()
         print e
 
 
@@ -30,6 +40,8 @@ def remover_servidor():
         rm_container(svr)
 
         servidor = session.query(Servidores).filter(Servidores.nome==svr).first()
+        t = session.query(Tokens).filter(Tokens.servidores_id==servidor.id).first()
+        session.delete(t)
         session.delete(servidor)
         session.commit()
 
